@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.renderers import JSONRenderer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .serializers import RegisterSerializer, LoginSerializer, LogoutSerializer
 
@@ -8,7 +9,13 @@ from .serializers import RegisterSerializer, LoginSerializer, LogoutSerializer
 # Register View
 class RegisterView(APIView):
     permission_classes = [AllowAny]
-
+    
+    def get(self, request):
+        # Optionally return a helpful message
+        return Response({
+            "message": "Use POST method to register a new user."
+        }, status=status.HTTP_200_OK)
+    
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
